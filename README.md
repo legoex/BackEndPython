@@ -1,0 +1,1 @@
+pipenv run uvicorn backend:app --reload
