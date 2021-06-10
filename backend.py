@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from Models.Note import Note, Base
+from models.note import Note, Base
 from fastapi.encoders import jsonable_encoder
 import os
 
@@ -22,7 +22,7 @@ app = FastAPI()
 
 
 @app.get("/notes")
-async def show():
+async def index():
     session = Session()
     notes = session.query(Note).all()
     result = jsonable_encoder({
@@ -45,7 +45,8 @@ async def create_note(title: str, content: str):
     session.commit()
     session.close()
     result = jsonable_encoder({
-        "note": note
+        "title": title,
+        "content": content
     })
     return JSONResponse(status_code=200, content={
         "status_code": 200,
